@@ -77,10 +77,7 @@ public class BloodBankServiceImpl implements BloodBankService {
     }
 
     private boolean isMobileNumberPresent(long mobileNumber){
-        if(bloodBankRepository.findByMobileNumber(mobileNumber).isEmpty()){
-            return false;
-        }
-        return true;
+        return bloodBankRepository.findByMobileNumber(mobileNumber).isPresent();
     }
     
 }

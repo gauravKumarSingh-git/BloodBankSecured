@@ -171,7 +171,7 @@ public class UserTest {
     @Test
     void validGetUserAndRequestDetails() {
         Mockito.when(usersRepository.getUserAndRequestDetails()).thenReturn(List.of(user));
-        List<UserRequestsResponse> res = userService.getPendingUserAndRequestDetails();
+        List<UserRequestsResponse> res = userService.getUserAndRequestDetails("pending");
         res.forEach(userReq -> {
             Assertions.assertEquals(userReq.getStatus(), "pending");
         });

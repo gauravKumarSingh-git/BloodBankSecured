@@ -73,7 +73,7 @@ public class UsersController {
 
     /**
      * To delete user by userId
-     * @param username
+     * @param userId
      * @return ResponseEntity<String>
      * @throws NotPresentException
      */

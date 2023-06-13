@@ -108,25 +108,12 @@ public class UsersServiceImpl implements UsersService {
     public List<UserRequestsResponse> getUserAndRequestDetails(String status) {
         List<Users> response = userRepository.getUserAndRequestDetails();
         List<UserRequestsResponse> ret = new ArrayList<>();
-        response.forEach(user -> {
-            user.getRequests().stream()
-                    .filter(req -> req.getStatus().equalsIgnoreCase(status))
-                    .forEach(req-> {
-                        UserRequestsResponse r = UserRequestsResponse.builder()
-                                .username(user.getUsername())
-                                .email(user.getEmail())
-                                .state(user.getState())
-                                .city(user.getCity())
-                                .address(user.getAddress())
-                                .phoneNumber(user.getPhoneNumber())
-                                .bloodGroup(req.getBloodGroup())
-                                .quantity(req.getQuantity())
-                                .date(req.getDate())
-                                .status(req.getStatus())
-                                .build();
-                        ret.add(r);
-                    });
-        });
+        response.forEach(user -> user.getRequests().stream()
+                .filter(req -> req.getStatus().equalsIgnoreCase(status))
+                .forEach(req-> {
+                    UserRequestsResponse userReqRes = new UserRequestsResponse(user.getUsername(), user.getEmail(), user.getState(), user.getCity(), user.getAddress(), user.getPhoneNumber(), req.getBloodGroup(), req.getQuantity(), req.getDate(), req.getStatus());
+                    ret.add(userReqRes);
+                }));
         return ret;
     }
 
