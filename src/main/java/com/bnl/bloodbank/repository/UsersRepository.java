@@ -2,6 +2,8 @@ package com.bnl.bloodbank.repository;
 
 import com.bnl.bloodbank.entity.Request;
 import com.bnl.bloodbank.entity.Users;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,5 +24,5 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     @Query("SELECT d from Users d inner join Request r on d.userId = r.user.userId")
     List<Users> getUserAndRequestDetails();
 
-    List<Users> findByRole(String role);
+    Page<Users> findByRole(String role, Pageable pageWithFiveElements);
 }

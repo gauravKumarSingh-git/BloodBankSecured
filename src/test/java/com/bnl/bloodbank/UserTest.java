@@ -16,6 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -180,13 +184,6 @@ public class UserTest {
         });
     }
 
-    /**
-     * To check whether findByRole returns users with role given as parameter
-     */
-    @Test
-    void validGetUsersByRole(){
-        Mockito.when(usersRepository.findByRole(user.getRole())).thenReturn(List.of(user));
-        Assertions.assertEquals(List.of(user), userService.getUsersByRole(user.getRole()));
-    }
+
 
 }

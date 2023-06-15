@@ -11,6 +11,7 @@ import com.bnl.bloodbank.service.UsersService;
 import com.bnl.bloodbank.dto.UserRequestsResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -143,10 +144,10 @@ public class UsersController {
      * @param role
      * @return
      */
-    @GetMapping("/getUsersByRole/{role}")
+    @GetMapping("/getUsersByRole/{role}/{pageNumber}/{sortBy}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Users>> getDonors(@PathVariable String role){
-        return new ResponseEntity<>(usersService.getUsersByRole(role), HttpStatus.OK);
+    public ResponseEntity<Page<Users>> getDonors(@PathVariable String role, @PathVariable int pageNumber,@PathVariable String sortBy){
+        return new ResponseEntity<>(usersService.getUsersByRole(role, pageNumber, sortBy), HttpStatus.OK);
     }
 
     /**

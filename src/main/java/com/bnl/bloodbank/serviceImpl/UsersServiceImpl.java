@@ -10,6 +10,10 @@ import com.bnl.bloodbank.service.UsersService;
 import com.bnl.bloodbank.dto.UserRequestsResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -118,8 +122,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<Users> getUsersByRole(String role) {
-        return userRepository.findByRole(role);
+    public Page<Users> getUsersByRole(String role, int pageNumber, String sortBy) {
+        Pageable pageWithFiveElements = PageRequest.of(pageNumber, 5, Sort.by(sortBy));
+
+        Page<Users> allUsers = userRepository.findByRole(role, pageWithFiveElements);
+        return allUsers;
     }
 
     private boolean isUsernamePresent(String username){

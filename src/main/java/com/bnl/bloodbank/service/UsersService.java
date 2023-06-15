@@ -6,6 +6,7 @@ import com.bnl.bloodbank.exception.AlreadyPresentException;
 import com.bnl.bloodbank.exception.NotPresentException;
 import com.bnl.bloodbank.exception.UsernameNotFoundException;
 import com.bnl.bloodbank.dto.UserRequestsResponse;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -90,5 +91,5 @@ public interface UsersService {
      * @param role
      * @return
      */
-    List<Users> getUsersByRole(String role);
+    Page<Users> getUsersByRole(String role, int pageNumber, String sortBy);
 }
