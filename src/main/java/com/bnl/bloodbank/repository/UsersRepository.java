@@ -21,4 +21,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     @Query("SELECT d from Users d inner join Request r on d.userId = r.user.userId")
     List<Users> getUserAndRequestDetails();
+
+    List<Users> findByRole(String role);
 }

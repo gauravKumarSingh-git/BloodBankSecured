@@ -84,4 +84,11 @@ public interface UsersService {
      * @return
      */
     List<UserRequestsResponse> getUserAndRequestDetails(String status);
+
+    /**
+     * Get list of all users by role
+     * @param role
+     * @return
+     */
+    List<Users> getUsersByRole(String role);
 }

@@ -168,14 +168,25 @@ public class UserTest {
         Assertions.assertEquals(user.getRequests(), userService.getRequests(user.getUserId()));
     }
 
+    /**
+     * To test whether getUserAndRequestDetails returns details with status as given in parameter
+     */
     @Test
     void validGetUserAndRequestDetails() {
         Mockito.when(usersRepository.getUserAndRequestDetails()).thenReturn(List.of(user));
         List<UserRequestsResponse> res = userService.getUserAndRequestDetails("pending");
         res.forEach(userReq -> {
-            Assertions.assertEquals(userReq.getStatus(), "pending");
+            Assertions.assertEquals("pending", userReq.getStatus());
         });
     }
 
+    /**
+     * To check whether findByRole returns users with role given as parameter
+     */
+    @Test
+    void validGetUsersByRole(){
+        Mockito.when(usersRepository.findByRole(user.getRole())).thenReturn(List.of(user));
+        Assertions.assertEquals(List.of(user), userService.getUsersByRole(user.getRole()));
+    }
 
 }

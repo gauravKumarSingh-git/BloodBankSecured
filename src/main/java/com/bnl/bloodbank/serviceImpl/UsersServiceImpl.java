@@ -117,6 +117,11 @@ public class UsersServiceImpl implements UsersService {
         return ret;
     }
 
+    @Override
+    public List<Users> getUsersByRole(String role) {
+        return userRepository.findByRole(role);
+    }
+
     private boolean isUsernamePresent(String username){
         return userRepository.findByUsername(username).isPresent();
     }

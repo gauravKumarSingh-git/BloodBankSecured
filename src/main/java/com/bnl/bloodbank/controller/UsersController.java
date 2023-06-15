@@ -138,6 +138,23 @@ public class UsersController {
         return new ResponseEntity<>(usersService.getUserAndRequestDetails(status), HttpStatus.OK);
     }
 
+    /**
+     * To get details of all users by role
+     * @param role
+     * @return
+     */
+    @GetMapping("/getUsersByRole/{role}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<Users>> getDonors(@PathVariable String role){
+        return new ResponseEntity<>(usersService.getUsersByRole(role), HttpStatus.OK);
+    }
+
+    /**
+     * To authenticate the user and return JWT token
+     * @param authRequest
+     * @return String
+     * @throws UsernameNotFoundException
+     */
     @PostMapping("/authenticate")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) throws UsernameNotFoundException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
