@@ -23,7 +23,7 @@ public class BloodGroupServiceImpl implements BloodGroupService {
     @Override
     public String addBloodGroup(BloodGroup bloodGroup) throws AlreadyPresentException {
         bloodGroupRepository.save(bloodGroup);
-        return "Blood Group " + bloodGroup.getBloodGroup() + " successfully saved";
+        return "Blood Group " + bloodGroup.getBloodGroupName() + " successfully saved";
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BloodGroupServiceImpl implements BloodGroupService {
 
     @Override
     public BloodGroup getByBloodGroup(String bloodGroup) throws NotPresentException {
-        Optional<BloodGroup> bloodGroupfromRepo = bloodGroupRepository.findByBloodGroup(bloodGroup);
+        Optional<BloodGroup> bloodGroupfromRepo = bloodGroupRepository.findByBloodGroupName(bloodGroup);
         return bloodGroupfromRepo.orElseThrow(()-> new NotPresentException("Blood Group " + bloodGroup + " not present"));
     }
 

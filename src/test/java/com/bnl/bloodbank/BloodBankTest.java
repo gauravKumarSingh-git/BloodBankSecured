@@ -42,7 +42,7 @@ public class BloodBankTest {
     private static BloodGroup bloodGroup =
             BloodGroup.builder()
                     .bloodGroupId(1)
-                    .bloodGroup("A+")
+                    .bloodGroupName("A+")
                     .quantity(10)
                     .build();
 

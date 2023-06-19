@@ -8,6 +8,6 @@ import com.bnl.bloodbank.entity.BloodGroup;
 
 public interface BloodGroupRepository extends JpaRepository<BloodGroup, Long> {
 
-    Optional<BloodGroup> findByBloodGroup(String bloodGroup);
+    Optional<BloodGroup> findByBloodGroupName(String bloodGroup);
     
 }

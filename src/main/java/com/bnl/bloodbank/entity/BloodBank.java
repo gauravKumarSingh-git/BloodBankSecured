@@ -47,7 +47,8 @@ public class BloodBank {
     private long mobileNumber;
 
     private LocalDate lastUpdated;
-    @OneToMany(mappedBy = "bloodBank" ,cascade = CascadeType.MERGE, orphanRemoval = true)
-    @JsonManagedReference
+
+    @OneToMany(mappedBy = "bloodBank" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "bloodBankReference")
     private List<BloodGroup> bloodgroups;
 }

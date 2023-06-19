@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ import com.bnl.bloodbank.exception.NotPresentException;
 import com.bnl.bloodbank.service.BloodGroupService;
 
 @RestController
-@RequestMapping("/bloodgroup")
+@RequestMapping("/bloodGroup")
 @Validated
 public class BloodGroupController {
 
@@ -34,6 +35,7 @@ public class BloodGroupController {
      * @throws AlreadyPresentException
      */
     @PostMapping("/addBloodGroup")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> addBloodGroup(@Valid @RequestBody BloodGroup bloodGroup) throws AlreadyPresentException{
         return new ResponseEntity<>(bloodGroupService.addBloodGroup(bloodGroup), HttpStatus.CREATED);
     }
@@ -56,6 +58,7 @@ public class BloodGroupController {
      * @throws NotPresentException
      */
     @DeleteMapping("/deleteBloodGroup/{bloodGroupId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> deleteBloodGroup(@PathVariable long bloodGroupId) throws NotPresentException{
         return new ResponseEntity<>(bloodGroupService.deleteBloodGroup(bloodGroupId), HttpStatus.OK);
     }
@@ -68,6 +71,7 @@ public class BloodGroupController {
      * @throws NotPresentException
      */
     @PatchMapping("/updateQuantity/{bloodGroup}/{quantity}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String> updateQuantity(@PathVariable String bloodGroup, @PathVariable long quantity) throws NotPresentException{
         return new ResponseEntity<>(bloodGroupService.updateQuantity(bloodGroup, quantity), HttpStatus.OK);
     }

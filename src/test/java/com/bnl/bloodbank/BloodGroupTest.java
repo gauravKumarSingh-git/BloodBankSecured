@@ -27,7 +27,7 @@ public class BloodGroupTest {
     private static BloodGroup bloodGroup =
             BloodGroup.builder()
                     .bloodGroupId(1)
-                    .bloodGroup("AB-")
+                    .bloodGroupName("AB-")
                     .quantity(11)
                     .build();
 
@@ -37,7 +37,7 @@ public class BloodGroupTest {
      */
     @Test
     void validAddBloodGroup() throws AlreadyPresentException{
-        Assertions.assertEquals("Blood Group " + bloodGroup.getBloodGroup() + " successfully saved", bloodGroupService.addBloodGroup(bloodGroup));
+        Assertions.assertEquals("Blood Group " + bloodGroup.getBloodGroupName() + " successfully saved", bloodGroupService.addBloodGroup(bloodGroup));
     }
 
     /**
@@ -94,8 +94,8 @@ public class BloodGroupTest {
      */
     @Test
     void validUpdateQuantity() throws NotPresentException{
-        Mockito.when(bloodGroupRepository.findByBloodGroup(bloodGroup.getBloodGroup())).thenReturn(Optional.of(bloodGroup));
-        Assertions.assertEquals("Successfully updated quantity for Blood Group " + bloodGroup.getBloodGroup(), bloodGroupService.updateQuantity(bloodGroup.getBloodGroup(), bloodGroup.getQuantity()));
+        Mockito.when(bloodGroupRepository.findByBloodGroupName(bloodGroup.getBloodGroupName())).thenReturn(Optional.of(bloodGroup));
+        Assertions.assertEquals("Successfully updated quantity for Blood Group " + bloodGroup.getBloodGroupName(), bloodGroupService.updateQuantity(bloodGroup.getBloodGroupName(), bloodGroup.getQuantity()));
     }
 
     /**
@@ -104,8 +104,8 @@ public class BloodGroupTest {
      */
     @Test
     void validGetByBloodGroup() throws NotPresentException{
-        Mockito.when(bloodGroupRepository.findByBloodGroup(bloodGroup.getBloodGroup())).thenReturn(Optional.of(bloodGroup));
-        Assertions.assertEquals(bloodGroup, bloodGroupService.getByBloodGroup(bloodGroup.getBloodGroup()));
+        Mockito.when(bloodGroupRepository.findByBloodGroupName(bloodGroup.getBloodGroupName())).thenReturn(Optional.of(bloodGroup));
+        Assertions.assertEquals(bloodGroup, bloodGroupService.getByBloodGroup(bloodGroup.getBloodGroupName()));
     }
 
     /**
@@ -114,11 +114,11 @@ public class BloodGroupTest {
      */
     @Test
     void invalidGetByBloodGroup() throws NotPresentException{
-        Mockito.when(bloodGroupRepository.findByBloodGroup(bloodGroup.getBloodGroup())).thenReturn(Optional.empty());
+        Mockito.when(bloodGroupRepository.findByBloodGroupName(bloodGroup.getBloodGroupName())).thenReturn(Optional.empty());
         NotPresentException ex = Assertions.assertThrows(
                 NotPresentException.class,
-                () -> bloodGroupService.getByBloodGroup(bloodGroup.getBloodGroup())
+                () -> bloodGroupService.getByBloodGroup(bloodGroup.getBloodGroupName())
         );
-        Assertions.assertEquals("Blood Group " + bloodGroup.getBloodGroup() + " not present", ex.getMessage());
+        Assertions.assertEquals("Blood Group " + bloodGroup.getBloodGroupName() + " not present", ex.getMessage());
     }
 }

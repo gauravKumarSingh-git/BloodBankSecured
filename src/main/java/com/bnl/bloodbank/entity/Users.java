@@ -45,6 +45,7 @@ public class Users {
     @NotNull(message = "Address should not be null")
     private String address;
 
+    @Past(message = "Invalid Date of birth")
     private LocalDate dateOfBirth;
 
     private String gender;

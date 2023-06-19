@@ -2,11 +2,7 @@ package com.bnl.bloodbank.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -26,13 +22,15 @@ public class BloodGroup {
     private long bloodGroupId;
 
     @NotNull(message = "Blood Group cannot be null")
-    private String bloodGroup;
+    private String bloodGroupName;
 
     @NotNull(message = "Quantity cannot be null")
     @Min(value = 1L, message = "Quantity should be at least 1")
     @Max(value = 10000L, message = "Quantity cannot be more than 10000")
     private long quantity;
+
+//    @JoinColumn(name = "blood_bank_id")
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "bloodBankReference")
     BloodBank bloodBank;
 }
