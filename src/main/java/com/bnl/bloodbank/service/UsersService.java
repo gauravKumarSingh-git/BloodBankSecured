@@ -81,10 +81,16 @@ public interface UsersService {
     public List<Request> getPendingRequests(long userId) throws NotPresentException;
 
     /**
+     * Get requests and user details by status of request and role
+     * @return
+     */
+    List<UserRequestsResponse> getUserAndRequestDetails(String role, String status);
+
+    /**
      * Get requests and user details by status of request
      * @return
      */
-    List<UserRequestsResponse> getUserAndRequestDetails(String status);
+    List<UserRequestsResponse> getUserAndRequestByStatus(String status);
 
     /**
      * Get list of all users by role
@@ -92,4 +98,6 @@ public interface UsersService {
      * @return
      */
     Page<Users> getUsersByRole(String role, int pageNumber, String sortBy);
+
+    String updatePassword(String username, String password) throws UsernameNotFoundException;
 }

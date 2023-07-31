@@ -1,6 +1,7 @@
 package com.bnl.bloodbank.config;
 
 import com.bnl.bloodbank.filter.JwtAuthFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -32,9 +38,33 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+        return http
+                .cors()
+                .configurationSource(
+                        new CorsConfigurationSource() {
+                            @Override
+                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                                CorsConfiguration config = new CorsConfiguration();
+                                config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+                                config.setAllowedMethods(Collections.singletonList("*"));
+                                config.setAllowCredentials(true);
+                                config.setAllowedHeaders(Collections.singletonList("*"));
+                                config.setExposedHeaders(Arrays.asList("Authorization"));       // because an authorization header will be sent from UI to backends
+                                config.setMaxAge(3600L);
+                                return config;
+                            }
+                        }
+                )
+                .and()
+
+                .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/user/authenticate", "user/registerUser").permitAll()
+                .requestMatchers("/user/authenticate",
+                        "/user/registerUser",
+                        "/user/isUsernamePresent/*",
+                        "/email/send/*",
+                        "/email/verifyOtp/*/*",
+                        "/user/updatePassword/*/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

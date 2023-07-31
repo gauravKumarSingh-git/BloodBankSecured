@@ -52,7 +52,7 @@ public class UsersServiceImpl implements UsersService {
                 throw new AlreadyPresentException("Phone Number already present");
             }
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
         return "Successfully updated";
@@ -109,13 +109,29 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public List<UserRequestsResponse> getUserAndRequestDetails(String status) {
+    public List<UserRequestsResponse> getUserAndRequestDetails(String role,String status) {
         List<Users> response = userRepository.getUserAndRequestDetails();
         List<UserRequestsResponse> ret = new ArrayList<>();
-        response.forEach(user -> user.getRequests().stream()
+        response.stream()
+                .filter(user -> user.getRole().equalsIgnoreCase(role))
+                .forEach(user -> user.getRequests().stream()
                 .filter(req -> req.getStatus().equalsIgnoreCase(status))
                 .forEach(req-> {
-                    UserRequestsResponse userReqRes = new UserRequestsResponse(user.getUsername(), user.getEmail(), user.getState(), user.getCity(), user.getAddress(), user.getPhoneNumber(), req.getBloodGroup(), req.getQuantity(), req.getDate(), req.getStatus());
+                    UserRequestsResponse userReqRes = new UserRequestsResponse(user.getUsername(), user.getEmail(), user.getState(), user.getCity(), user.getAddress(), user.getPhoneNumber(), req.getRequestId(), req.getBloodGroup(), req.getQuantity(), req.getDate(), req.getStatus());
+                    ret.add(userReqRes);
+                }));
+        return ret;
+    }
+
+    @Override
+    public List<UserRequestsResponse> getUserAndRequestByStatus(String status) {
+        List<Users> response = userRepository.getUserAndRequestDetails();
+        List<UserRequestsResponse> ret = new ArrayList<>();
+        response.stream()
+                .forEach(user -> user.getRequests().stream()
+                .filter(req -> req.getStatus().equalsIgnoreCase(status))
+                .forEach(req-> {
+                    UserRequestsResponse userReqRes = new UserRequestsResponse(user.getUsername(), user.getEmail(), user.getState(), user.getCity(), user.getAddress(), user.getPhoneNumber(), req.getRequestId(), req.getBloodGroup(), req.getQuantity(), req.getDate(), req.getStatus());
                     ret.add(userReqRes);
                 }));
         return ret;
@@ -127,6 +143,13 @@ public class UsersServiceImpl implements UsersService {
 
         Page<Users> allUsers = userRepository.findByRole(role, pageWithFiveElements);
         return allUsers;
+    }
+
+    @Override
+    public String updatePassword(String username, String password) throws UsernameNotFoundException{
+        Users user = findByUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        return "Password Successfully updated";
     }
 
     private boolean isUsernamePresent(String username){

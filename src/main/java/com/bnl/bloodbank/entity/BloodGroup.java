@@ -25,7 +25,7 @@ public class BloodGroup {
     private String bloodGroupName;
 
     @NotNull(message = "Quantity cannot be null")
-    @Min(value = 1L, message = "Quantity should be at least 1")
+    @Min(value = 0L, message = "Quantity should be at least 0")
     @Max(value = 10000L, message = "Quantity cannot be more than 10000")
     private long quantity;
 

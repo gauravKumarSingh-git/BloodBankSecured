@@ -90,9 +90,19 @@ public class UsersController {
      * @throws UsernameNotFoundException
      */
     @GetMapping("/findByUsername/{username}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Users> findByUsername(@PathVariable String username) throws UsernameNotFoundException{
         return new ResponseEntity<Users>(usersService.findByUsername(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/isUsernamePresent/{username}")
+    public ResponseEntity<Boolean> isUsernamePresent(@PathVariable String username) throws UsernameNotFoundException{
+        try{
+            usersService.findByUsername(username);
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        catch (UsernameNotFoundException e){
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
     }
 
     /**
@@ -130,13 +140,23 @@ public class UsersController {
     }
 
     /**
+     * To get user and request details by status and role
+     * @return List<UserRequestsResponse>
+     */
+    @GetMapping("/getUserAndRequestDetails/{role}/{status}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<UserRequestsResponse>> getUserAndRequestDetails(@PathVariable String role, @PathVariable String status){
+        return new ResponseEntity<>(usersService.getUserAndRequestDetails(role, status), HttpStatus.OK);
+    }
+
+    /**
      * To get user and request details by status
      * @return List<UserRequestsResponse>
      */
-    @GetMapping("/getUserAndRequestDetails/{status}")
+    @GetMapping("/getUserAndRequestByStatus/{status}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<UserRequestsResponse>> getUserAndRequestDetails(@PathVariable String status){
-        return new ResponseEntity<>(usersService.getUserAndRequestDetails(status), HttpStatus.OK);
+    public ResponseEntity<List<UserRequestsResponse>> getUserAndRequestByStatus(@PathVariable String status){
+        return new ResponseEntity<>(usersService.getUserAndRequestByStatus(status), HttpStatus.OK);
     }
 
     /**
@@ -153,16 +173,22 @@ public class UsersController {
     /**
      * To authenticate the user and return JWT token
      * @param authRequest
-     * @return String
+     * @return ResponseEntity<String>
      * @throws UsernameNotFoundException
      */
     @PostMapping("/authenticate")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) throws UsernameNotFoundException {
+    public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) throws UsernameNotFoundException {
+        Users user = usersService.findByUsername(authRequest.getUsername());
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if(authentication.isAuthenticated()){
-            return jwtService.generateToken(authRequest.getUsername());
+            return new ResponseEntity<>(jwtService.generateToken(authRequest.getUsername(), user.getRole()), HttpStatus.OK);
         }else{
             throw new UsernameNotFoundException("Invalid User Request!");
         }
+    }
+
+    @PutMapping("/updatePassword/{username}/{password}")
+    public ResponseEntity<String> updatePassword(@PathVariable String username, @PathVariable String password) throws UsernameNotFoundException{
+        return new ResponseEntity<>(usersService.updatePassword(username, password), HttpStatus.OK);
     }
 }

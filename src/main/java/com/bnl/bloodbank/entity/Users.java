@@ -24,7 +24,7 @@ public class Users {
     @NotNull(message = "Username cannot be null")
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "Username should contain only alphabets and numerical values")
     @Size(min=5, message = "Username should be at least 5 characters long")
-    @Size(max = 15, message = "Username should be less than 16 characters")
+    @Size(max = 15, message = "Username should be less than 16 characters"  )
     private String username;
 
     @NotNull(message = "Password cannot be null")
@@ -62,4 +62,7 @@ public class Users {
     @JsonManagedReference(value = "donorReference")
 //    @JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
     private List<Request> requests;
+
+    private String otp;
+
 }

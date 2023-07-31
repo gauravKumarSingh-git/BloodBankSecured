@@ -76,6 +76,12 @@ public class BloodGroupController {
         return new ResponseEntity<>(bloodGroupService.updateQuantity(bloodGroup, quantity), HttpStatus.OK);
     }
 
+    @PatchMapping("/changeQuantity/{bloodGroup}/{amount}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> changeQuantity(@PathVariable String bloodGroup, @PathVariable long amount) throws NotPresentException{
+        return new ResponseEntity<>(bloodGroupService.changeQuantity(bloodGroup, amount), HttpStatus.OK);
+    }
+
     /**
      * Get blood group details by bloodGroup
      * @param bloodGroup

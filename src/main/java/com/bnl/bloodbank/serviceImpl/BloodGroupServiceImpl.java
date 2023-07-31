@@ -51,4 +51,13 @@ public class BloodGroupServiceImpl implements BloodGroupService {
         return bloodGroupfromRepo.orElseThrow(()-> new NotPresentException("Blood Group " + bloodGroup + " not present"));
     }
 
+    @Override
+    public String changeQuantity(String bloodGroup, long amount) throws NotPresentException{
+        BloodGroup bloodGroupFromRepo = getByBloodGroup(bloodGroup);
+        long newQuantity = bloodGroupFromRepo.getQuantity() + amount;
+        if(newQuantity < 0) throw new NotPresentException("Not enough blood present for " + bloodGroupFromRepo.getBloodGroupName() + " blood group");
+        updateQuantity(bloodGroup, newQuantity);
+        return "Successfully changed quantity";
+    }
+
 }

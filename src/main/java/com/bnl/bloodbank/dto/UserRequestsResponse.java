@@ -20,6 +20,7 @@ public class UserRequestsResponse {
     private String city;
     private String address;
     private long phoneNumber;
+    private long requestId;
     private String bloodGroup;
     private long quantity;
     private LocalDate date;

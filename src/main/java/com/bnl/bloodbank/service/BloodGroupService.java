@@ -46,5 +46,6 @@ public interface BloodGroupService {
      * @throws NotPresentException
      */
     public BloodGroup getByBloodGroup(String bloodGroup) throws NotPresentException;
-    
+
+    public String changeQuantity(String bloodGroup, long amount) throws NotPresentException;
 }

@@ -42,6 +42,7 @@ public class UserTest {
                     .city("Bangalore")
                     .state("Karnataka")
                     .gender("Male")
+                    .role("ROLE_ADMIN")
                     .email("user@gmail.com")
                     .password("password")
                     .username("user")
@@ -174,7 +175,7 @@ public class UserTest {
     @Test
     void validGetUserAndRequestDetails() {
         Mockito.when(usersRepository.getUserAndRequestDetails()).thenReturn(List.of(user));
-        List<UserRequestsResponse> res = userService.getUserAndRequestDetails("pending");
+        List<UserRequestsResponse> res = userService.getUserAndRequestDetails("ROLE_ADMIN", "pending");
         res.forEach(userReq -> {
             Assertions.assertEquals("pending", userReq.getStatus());
         });
