@@ -13,12 +13,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @SpringBootTest
+@TestPropertySource(properties = "email=test@example.com")
 public class BloodBankTest {
 
     @Mock

@@ -159,6 +159,12 @@ public class UsersController {
         return new ResponseEntity<>(usersService.getUserAndRequestByStatus(status), HttpStatus.OK);
     }
 
+//    @GetMapping("/getUserAndRequestByStatusPageable/{status}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public ResponseEntity<Page<UserRequestsResponse>> getUserAndRequestByStatusPagable(@PathVariable String status){
+//        return new ResponseEntity<>(usersService.getUserAndRequestByStatusPageable(status), HttpStatus.OK);
+//    }
+
     /**
      * To get details of all users by role
      * @param role

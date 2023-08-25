@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
+@TestPropertySource(properties = "email=test@example.com")
 public class UserTest {
 
     @Mock
@@ -179,6 +181,27 @@ public class UserTest {
         res.forEach(userReq -> {
             Assertions.assertEquals("pending", userReq.getStatus());
         });
+    }
+
+    @Test
+    void validGetPendingRequests() throws NotPresentException{
+        Mockito.when(usersRepository.findPendingRequestsByUserId(user.getUserId())).thenReturn(user.getRequests());
+        Mockito.when(usersRepository.findById(user.getUserId())).thenReturn(Optional.of(user));
+        List<Request> pendingRequests = userService.getPendingRequests(user.getUserId());
+        pendingRequests.forEach(req -> {
+            Assertions.assertEquals("pending", req.getStatus());
+        });
+    }
+
+    @Test
+    void invalidGetPendingRequests() throws NotPresentException{
+        Mockito.when(usersRepository.findById(user.getUserId())).thenReturn(Optional.empty());
+        NotPresentException ex = Assertions.assertThrows(
+                NotPresentException.class,
+                () -> userService.getPendingRequests(user.getUserId())
+        );
+        Assertions.assertEquals("user with userID: " + user.getUserId() + " not found", ex.getMessage());
+
     }
 
 
