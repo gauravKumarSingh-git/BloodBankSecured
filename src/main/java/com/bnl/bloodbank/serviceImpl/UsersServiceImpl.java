@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -150,6 +151,16 @@ public class UsersServiceImpl implements UsersService {
         Users user = findByUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         return "Password Successfully updated";
+    }
+
+    @Override
+    public List<Users> getLikeUsername(String username) throws UsernameNotFoundException {
+//        return userRepository.findAll().stream().filter(
+//                (user) -> {
+//                    return user.getUsername().contains(username);
+//                }
+//        ).collect(Collectors.toList());
+        return userRepository.getLikeUsername(username);
     }
 
     private boolean isUsernamePresent(String username){

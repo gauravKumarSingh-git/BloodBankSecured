@@ -51,4 +51,5 @@ public class BloodBank {
     @OneToMany(mappedBy = "bloodBank" ,cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "bloodBankReference")
     private List<BloodGroup> bloodgroups;
+
 }

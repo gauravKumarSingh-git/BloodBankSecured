@@ -197,4 +197,16 @@ public class UsersController {
     public ResponseEntity<String> updatePassword(@PathVariable String username, @PathVariable String password) throws UsernameNotFoundException{
         return new ResponseEntity<>(usersService.updatePassword(username, password), HttpStatus.OK);
     }
+
+    /**
+     * Get list of users which have username starting with username provided in argument
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @GetMapping("/getLikeUsername/{username}")
+    public ResponseEntity<List<Users>> getLikeUsername(@PathVariable String username) throws UsernameNotFoundException{
+        return new ResponseEntity<>(usersService.getLikeUsername(username), HttpStatus.OK);
+    }
+
 }

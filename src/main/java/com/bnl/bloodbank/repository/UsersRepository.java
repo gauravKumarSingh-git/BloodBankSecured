@@ -25,4 +25,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     List<Users> getUserAndRequestDetails();
 
     Page<Users> findByRole(String role, Pageable pageWithFiveElements);
+
+    @Query("SELECT u from Users u where u.username LIKE %:username%")
+    List<Users> getLikeUsername(String username);
 }

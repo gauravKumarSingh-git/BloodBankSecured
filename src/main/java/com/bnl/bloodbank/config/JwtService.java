@@ -18,7 +18,14 @@ import java.util.function.Function;
 @Component
 public class JwtService {
 
-    public static String SECRET = "5DuBlo23odfQb1tqrbNFurio32434uskrw8UaGBEBa85nkCF7BbpUJTvR";
+    private String SECRET;
+    public JwtService(
+            @Value("${jwt.secret}")
+            String SECRET
+    ){
+        this.SECRET = SECRET;
+    }
+
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);

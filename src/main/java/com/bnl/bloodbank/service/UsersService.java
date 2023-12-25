@@ -100,4 +100,6 @@ public interface UsersService {
     Page<Users> getUsersByRole(String role, int pageNumber, String sortBy);
 
     String updatePassword(String username, String password) throws UsernameNotFoundException;
+
+    List<Users> getLikeUsername(String username) throws UsernameNotFoundException;
 }
