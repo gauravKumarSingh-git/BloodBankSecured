@@ -118,6 +118,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<finalName>blood-bank-k8s</finalName>
 	</build>
 
 </project>
